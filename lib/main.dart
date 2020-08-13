@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timeo/timer-creator.dart';
+import 'package:timeo/timer.dart';
 
 void main() {
   runApp(App());
@@ -37,9 +38,9 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Center(
           child: Column(
-            children: <Widget>[],
+            children: <Widget>[TimerWidget()],
           ),
         ),
-        floatingActionButton: TimerCreator());
+        floatingActionButton: TimerCreatorWidget());
   }
 }
