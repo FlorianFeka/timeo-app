@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:timeo/timer-creator.dart';
 
 void main() {
   runApp(App());
@@ -33,21 +32,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[],
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          DatePicker.showTimePicker(context,
-              showTitleActions: true, onConfirm: (time) => print(time));
-        },
-      ),
-    );
+        body: Center(
+          child: Column(
+            children: <Widget>[],
+          ),
+        ),
+        floatingActionButton: TimerCreator());
   }
 }
