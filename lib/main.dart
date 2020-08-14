@@ -38,7 +38,9 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Center(
           child: Column(
-            children: <Widget>[TimerWidget()],
+            children: <Widget>[
+              TimerWidget(),
+            ],
           ),
         ),
         floatingActionButton: TimerCreatorWidget());

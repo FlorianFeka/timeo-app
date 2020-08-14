@@ -14,10 +14,15 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   DateTime dateTime = new DateTime(1, 1, 1, 0, 0, 11);
+  DateTime backUpDateTime = null;
   final DateFormat formatter = new DateFormat('Hms');
   final Duration oneSec = new Duration(seconds: 1);
   Timer _timer;
   String _time = "";
+
+  _TimerWidgetState() {
+    backUpDateTime = dateTime;
+  }
 
   startTimer() {
     if (_timer == null) {
@@ -37,6 +42,15 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
+  stopTimer() {
+    _timer.cancel();
+    _timer = null;
+  }
+
+  resetTimer() {
+    dateTime = backUpDateTime;
+  }
+
   @override
   Widget build(BuildContext context) {
     startTimer();
@@ -48,19 +62,22 @@ class _TimerWidgetState extends State<TimerWidget> {
         ),
         IconButton(
           icon: Icon(Icons.play_arrow),
-          onPressed: () {},
+          onPressed: startTimer,
         ),
         IconButton(
           icon: Icon(Icons.pause),
-          onPressed: () {},
+          onPressed: stopTimer,
         ),
         IconButton(
           icon: Icon(Icons.stop),
-          onPressed: () {},
+          onPressed: () {
+            stopTimer();
+            resetTimer();
+          },
         ),
         IconButton(
           icon: Icon(Icons.replay),
-          onPressed: () {},
+          onPressed: resetTimer,
         )
       ],
     );
