@@ -45,6 +45,22 @@ class _TimerWidgetState extends State<TimerWidget> {
         Text(
           _time,
           style: TextStyle(fontSize: 30),
+        ),
+        IconButton(
+          icon: Icon(Icons.play_arrow),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.pause),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.stop),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.replay),
+          onPressed: () {},
         )
       ],
     );
