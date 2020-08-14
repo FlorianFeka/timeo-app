@@ -22,6 +22,13 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   _TimerWidgetState() {
     backUpDateTime = dateTime;
+    startTimer();
+  }
+
+  updateScreenTime() {
+    setState(() {
+      _time = formatter.format(dateTime);
+    });
   }
 
   startTimer() {
@@ -29,9 +36,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timer = new Timer.periodic(oneSec, (timer) {
         dateTime = dateTime.subtract(oneSec);
         print(dateTime);
-        setState(() {
-          _time = formatter.format(dateTime);
-        });
+        updateScreenTime();
         if (dateTime.hour == 0 &&
             dateTime.minute == 0 &&
             dateTime.second == 0) {
@@ -42,18 +47,29 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
-  stopTimer() {
+  pauseTimer() {
     _timer.cancel();
     _timer = null;
   }
 
+  stopTimer() {
+    pauseTimer();
+
+    dateTime = backUpDateTime;
+    dateTime = dateTime.subtract(oneSec);
+    updateScreenTime();
+  }
+
   resetTimer() {
     dateTime = backUpDateTime;
+    dateTime = dateTime.subtract(oneSec);
+    _timer = null;
+    updateScreenTime();
+    startTimer();
   }
 
   @override
   Widget build(BuildContext context) {
-    startTimer();
     return Row(
       children: [
         Text(
@@ -66,14 +82,11 @@ class _TimerWidgetState extends State<TimerWidget> {
         ),
         IconButton(
           icon: Icon(Icons.pause),
-          onPressed: stopTimer,
+          onPressed: pauseTimer,
         ),
         IconButton(
           icon: Icon(Icons.stop),
-          onPressed: () {
-            stopTimer();
-            resetTimer();
-          },
+          onPressed: stopTimer,
         ),
         IconButton(
           icon: Icon(Icons.replay),
