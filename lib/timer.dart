@@ -13,15 +13,17 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  DateTime dateTime = new DateTime(1, 1, 1, 0, 0, 11);
-  DateTime backUpDateTime = null;
   final DateFormat formatter = new DateFormat('Hms');
   final Duration oneSec = new Duration(seconds: 1);
+  DateTime dateTime = new DateTime(1, 1, 1, 0, 0, 11);
+  DateTime _backUpDateTime;
   Timer _timer;
   String _time = "";
+  IconData _playPauseIcon = Icons.pause;
+  bool _playing = true;
 
   _TimerWidgetState() {
-    backUpDateTime = dateTime;
+    _backUpDateTime = dateTime;
     startTimer();
   }
 
@@ -35,15 +37,29 @@ class _TimerWidgetState extends State<TimerWidget> {
     if (_timer == null) {
       _timer = new Timer.periodic(oneSec, (timer) {
         dateTime = dateTime.subtract(oneSec);
-        print(dateTime);
         updateScreenTime();
         if (dateTime.hour == 0 &&
             dateTime.minute == 0 &&
             dateTime.second == 0) {
-          print('Stop Timer');
           _timer.cancel();
         }
       });
+    }
+  }
+
+  playPause() {
+    if (_playing) {
+      setState(() {
+        _playing = false;
+        _playPauseIcon = Icons.play_arrow;
+      });
+      pauseTimer();
+    } else {
+      setState(() {
+        _playing = true;
+        _playPauseIcon = Icons.pause;
+      });
+      startTimer();
     }
   }
 
@@ -57,13 +73,13 @@ class _TimerWidgetState extends State<TimerWidget> {
   stopTimer() {
     pauseTimer();
 
-    dateTime = backUpDateTime;
+    dateTime = _backUpDateTime;
     dateTime = dateTime.subtract(oneSec);
     updateScreenTime();
   }
 
   resetTimer() {
-    dateTime = backUpDateTime;
+    dateTime = _backUpDateTime;
     dateTime = dateTime.subtract(oneSec);
     pauseTimer();
     updateScreenTime();
@@ -79,12 +95,8 @@ class _TimerWidgetState extends State<TimerWidget> {
           style: TextStyle(fontSize: 30),
         ),
         IconButton(
-          icon: Icon(Icons.play_arrow),
-          onPressed: startTimer,
-        ),
-        IconButton(
-          icon: Icon(Icons.pause),
-          onPressed: pauseTimer,
+          icon: Icon(_playPauseIcon),
+          onPressed: playPause,
         ),
         IconButton(
           icon: Icon(Icons.stop),
