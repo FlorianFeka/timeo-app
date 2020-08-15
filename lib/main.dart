@@ -33,16 +33,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              TimerWidget(),
-            ],
-          ),
-        ),
-        floatingActionButton: TimerCreatorWidget());
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Column(
+        children: <Widget>[
+          Center(
+            child: TimerWidget(),
+          )
+        ],
+      ),
+      floatingActionButton: TimerCreatorWidget(),
+    );
   }
 }

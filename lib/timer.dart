@@ -36,12 +36,13 @@ class _TimerWidgetState extends State<TimerWidget> {
   startTimer() {
     if (_timer == null) {
       _timer = new Timer.periodic(oneSec, (timer) {
-        dateTime = dateTime.subtract(oneSec);
-        updateScreenTime();
         if (dateTime.hour == 0 &&
             dateTime.minute == 0 &&
             dateTime.second == 0) {
           _timer.cancel();
+        } else {
+          dateTime = dateTime.subtract(oneSec);
+          updateScreenTime();
         }
       });
     }
@@ -89,6 +90,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           _time,
