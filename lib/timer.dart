@@ -48,8 +48,10 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   pauseTimer() {
-    _timer.cancel();
-    _timer = null;
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
   }
 
   stopTimer() {
@@ -63,7 +65,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   resetTimer() {
     dateTime = backUpDateTime;
     dateTime = dateTime.subtract(oneSec);
-    _timer = null;
+    pauseTimer();
     updateScreenTime();
     startTimer();
   }
