@@ -136,6 +136,10 @@ class _TimerWidgetState extends State<TimerWidget> {
               IconButton(
                 icon: Icon(Icons.replay),
                 onPressed: resetTimer,
+              ),
+              IconButton(
+                icon: Icon(Icons.delete_forever),
+                onPressed: resetTimer,
               )
             ],
           )
