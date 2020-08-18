@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 
 class TimerWidget extends StatefulWidget {
-  // final DateTime _dateTime;
+  final DateTime _dateTimeRoot;
 
-  // TimerWidget(this._dateTime);
+  TimerWidget(this._dateTimeRoot);
 
   @override
   _TimerWidgetState createState() => _TimerWidgetState();
@@ -15,7 +15,7 @@ class TimerWidget extends StatefulWidget {
 class _TimerWidgetState extends State<TimerWidget> {
   final DateFormat formatter = new DateFormat('Hms');
   final Duration oneSec = new Duration(seconds: 1);
-  DateTime dateTime = new DateTime(1, 1, 1, 0, 0, 11);
+  DateTime _dateTime;
   DateTime _backUpDateTime;
   Timer _timer;
   String _time = "";
@@ -24,25 +24,24 @@ class _TimerWidgetState extends State<TimerWidget> {
   String _name = "FILL";
 
   _TimerWidgetState() {
-    _backUpDateTime = dateTime;
     initTimer();
   }
 
   updateScreenTime() {
     setState(() {
-      _time = formatter.format(dateTime);
+      _time = formatter.format(_dateTime);
     });
   }
 
   initTimer() {
     if (_timer == null) {
       _timer = new Timer.periodic(oneSec, (timer) {
-        if (dateTime.hour == 0 &&
-            dateTime.minute == 0 &&
-            dateTime.second == 0) {
+        if (_dateTime.hour == 0 &&
+            _dateTime.minute == 0 &&
+            _dateTime.second == 0) {
           _timer.cancel();
         } else {
-          dateTime = dateTime.subtract(oneSec);
+          _dateTime = _dateTime.subtract(oneSec);
           updateScreenTime();
         }
       });
@@ -52,12 +51,12 @@ class _TimerWidgetState extends State<TimerWidget> {
   startTimer() {
     if (_timer == null) {
       _timer = new Timer.periodic(oneSec, (timer) {
-        if (dateTime.hour == 0 &&
-            dateTime.minute == 0 &&
-            dateTime.second == 0) {
+        if (_dateTime.hour == 0 &&
+            _dateTime.minute == 0 &&
+            _dateTime.second == 0) {
           _timer.cancel();
         } else {
-          dateTime = dateTime.subtract(oneSec);
+          _dateTime = _dateTime.subtract(oneSec);
           updateScreenTime();
           setState(() {
             _playing = true;
@@ -90,14 +89,14 @@ class _TimerWidgetState extends State<TimerWidget> {
   stopTimer() {
     pauseTimer();
 
-    dateTime = _backUpDateTime;
-    dateTime = dateTime.subtract(oneSec);
+    _dateTime = _backUpDateTime;
+    _dateTime = _dateTime.subtract(oneSec);
     updateScreenTime();
   }
 
   resetTimer() {
-    dateTime = _backUpDateTime;
-    dateTime = dateTime.subtract(oneSec);
+    _dateTime = _backUpDateTime;
+    _dateTime = _dateTime.subtract(oneSec);
     pauseTimer();
     updateScreenTime();
     startTimer();
@@ -105,6 +104,12 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (_dateTime == null) {
+      _dateTime = widget._dateTimeRoot;
+      print(widget._dateTimeRoot);
+      print(_dateTime);
+      _backUpDateTime = _dateTime;
+    }
     return Padding(
       padding: EdgeInsets.only(top: 20),
       child: Column(

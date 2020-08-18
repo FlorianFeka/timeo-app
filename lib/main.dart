@@ -30,6 +30,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<TimerWidget> _list;
+
+  _HomePageState() {
+    _list = [];
+  }
+
+  addTimer(DateTime time) {
+    setState(() {
+      _list.add(TimerWidget(time));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +49,9 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: <Widget>[
-          Center(
-            child: TimerWidget(),
-          )
-        ],
+        children: _list,
       ),
-      floatingActionButton: TimerCreatorWidget(),
+      floatingActionButton: TimerCreatorWidget(addTimer),
     );
   }
 }
