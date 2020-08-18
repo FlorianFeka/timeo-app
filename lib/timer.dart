@@ -106,7 +106,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     if (_dateTime == null) {
-      _dateTime = widget._dateTimeRoot;
+      _dateTime = widget._dateTimeRoot.add(oneSec);
       _backUpDateTime = _dateTime;
       _name = widget._timerName;
     }
