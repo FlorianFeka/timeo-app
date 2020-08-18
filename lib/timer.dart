@@ -5,8 +5,9 @@ import 'dart:async';
 
 class TimerWidget extends StatefulWidget {
   final DateTime _dateTimeRoot;
+  final String _timerName;
 
-  TimerWidget(this._dateTimeRoot);
+  TimerWidget(this._dateTimeRoot, this._timerName);
 
   @override
   _TimerWidgetState createState() => _TimerWidgetState();
@@ -21,7 +22,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   String _time = "";
   IconData _playPauseIcon = Icons.pause;
   bool _playing = true;
-  String _name = "FILL";
+  String _name;
 
   _TimerWidgetState() {
     initTimer();
@@ -106,9 +107,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget build(BuildContext context) {
     if (_dateTime == null) {
       _dateTime = widget._dateTimeRoot;
-      print(widget._dateTimeRoot);
-      print(_dateTime);
       _backUpDateTime = _dateTime;
+      _name = widget._timerName;
     }
     return Padding(
       padding: EdgeInsets.only(top: 20),

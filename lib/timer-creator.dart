@@ -12,8 +12,9 @@ class TimerCreatorWidget extends StatelessWidget {
     return FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: () {
-        DatePicker.showTimePicker(context, showTitleActions: true,
-            onConfirm: (time) {
+        DatePicker.showTimePicker(context,
+            showTitleActions: true,
+            currentTime: DateTime(2000), onConfirm: (time) {
           this.addTimerFunction(time);
         });
       },

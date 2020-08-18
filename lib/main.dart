@@ -37,9 +37,73 @@ class _HomePageState extends State<HomePage> {
   }
 
   addTimer(DateTime time) {
-    setState(() {
-      _list.add(TimerWidget(time));
-    });
+    String timerName = "";
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Timer Name"),
+            content: TextField(
+              onChanged: (String textTyped) {
+                setState(() {
+                  timerName = textTyped;
+                });
+              },
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(hintText: 'Enter name'),
+            ),
+            actions: <Widget>[
+              Row(
+                children: <Widget>[
+                  FlatButton(
+                    child: new Text("Cancel"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: new Text("OK"),
+                    onPressed: () {
+                      setState(() {
+                        _list.add(TimerWidget(time, timerName));
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert Dialog title"),
+          content: TextField(
+            onChanged: (String textTyped) {},
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(hintText: 'Enter the number'),
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            Row(
+              children: <Widget>[
+                FlatButton(
+                  child: new Text("Cancel"),
+                  onPressed: () {},
+                ),
+                FlatButton(onPressed: () {}, child: new Text("OK"))
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
