@@ -77,35 +77,6 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  void _showDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Alert Dialog title"),
-          content: TextField(
-            onChanged: (String textTyped) {},
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(hintText: 'Enter the number'),
-          ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            Row(
-              children: <Widget>[
-                FlatButton(
-                  child: new Text("Cancel"),
-                  onPressed: () {},
-                ),
-                FlatButton(onPressed: () {}, child: new Text("OK"))
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
