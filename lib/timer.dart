@@ -20,13 +20,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   DateTime _backUpDateTime;
   Timer _timer;
   String _time = "";
-  IconData _playPauseIcon = Icons.pause;
-  bool _playing = true;
+  IconData _playPauseIcon = Icons.play_arrow;
+  bool _playing = false;
   String _name;
-
-  _TimerWidgetState() {
-    initTimer();
-  }
 
   updateScreenTime() {
     setState(() {
@@ -91,13 +87,11 @@ class _TimerWidgetState extends State<TimerWidget> {
     pauseTimer();
 
     _dateTime = _backUpDateTime;
-    _dateTime = _dateTime.subtract(oneSec);
     updateScreenTime();
   }
 
   resetTimer() {
     _dateTime = _backUpDateTime;
-    _dateTime = _dateTime.subtract(oneSec);
     pauseTimer();
     updateScreenTime();
     startTimer();
@@ -106,9 +100,10 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     if (_dateTime == null) {
-      _dateTime = widget._dateTimeRoot.add(oneSec);
+      _dateTime = widget._dateTimeRoot;
       _backUpDateTime = _dateTime;
       _name = widget._timerName;
+      updateScreenTime();
     }
     return Padding(
       padding: EdgeInsets.only(top: 20),
