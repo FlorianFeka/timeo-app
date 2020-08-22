@@ -30,6 +30,53 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<TimerWidget> _list;
+
+  _HomePageState() {
+    _list = [];
+  }
+
+  addTimer(DateTime time) {
+    String timerName = "";
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Timer Name"),
+            content: TextField(
+              onChanged: (String textTyped) {
+                setState(() {
+                  timerName = textTyped;
+                });
+              },
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(hintText: 'Enter name'),
+            ),
+            actions: <Widget>[
+              Row(
+                children: <Widget>[
+                  FlatButton(
+                    child: new Text("Cancel"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: new Text("OK"),
+                    onPressed: () {
+                      setState(() {
+                        _list.add(TimerWidget(time, timerName));
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +84,9 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: <Widget>[
-          Center(
-            child: TimerWidget(),
-          )
-        ],
+        children: _list,
       ),
-      floatingActionButton: TimerCreatorWidget(),
+      floatingActionButton: TimerCreatorWidget(addTimer),
     );
   }
 }
