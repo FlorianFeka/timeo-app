@@ -31,6 +31,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<TimerWidget> _list;
+  var _timerId = 0;
 
   _HomePageState() {
     _list = [];
@@ -65,7 +66,8 @@ class _HomePageState extends State<HomePage> {
                     child: new Text("OK"),
                     onPressed: () {
                       setState(() {
-                        _list.add(TimerWidget(time, timerName));
+                        _list.add(TimerWidget(
+                            _timerId++, time, timerName, deleteTimer));
                       });
                       Navigator.of(context).pop();
                     },
@@ -77,15 +79,36 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
+  deleteTimer(int timerId) {
+    setState(() {
+      print("Delete id: $timerId");
+      this._list.removeWhere((element) {
+        print("Element id: ${element.timerId}");
+        print(
+            "Element id  ${element.timerId} == $timerId : ${element.timerId == timerId}");
+        if (element.timerId == timerId) {
+          element = null;
+          return true;
+        } else {
+          return false;
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: _list,
-      ),
+      body: _list.isEmpty
+          ? Center(
+              child: Text("No timers"),
+            )
+          : Column(
+              children: _list,
+            ),
       floatingActionButton: TimerCreatorWidget(addTimer),
     );
   }
