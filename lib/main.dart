@@ -65,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                     child: new Text("OK"),
                     onPressed: () {
                       setState(() {
-                        _list.add(TimerWidget(time, timerName));
+                        _list.add(TimerWidget(
+                            UniqueKey(), time, timerName, deleteTimer));
                       });
                       Navigator.of(context).pop();
                     },
@@ -77,15 +78,25 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
+  deleteTimer(Key key) {
+    setState(() {
+      this._list.removeWhere((timerWidget) => timerWidget.key == key);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: _list,
-      ),
+      body: _list.isEmpty
+          ? Center(
+              child: Text("No timers"),
+            )
+          : Column(
+              children: _list,
+            ),
       floatingActionButton: TimerCreatorWidget(addTimer),
     );
   }

@@ -6,8 +6,10 @@ import 'dart:async';
 class TimerWidget extends StatefulWidget {
   final DateTime _dateTimeRoot;
   final String _timerName;
+  final Function _deleteTimer;
 
-  TimerWidget(this._dateTimeRoot, this._timerName);
+  TimerWidget(Key key, this._dateTimeRoot, this._timerName, this._deleteTimer)
+      : super(key: key);
 
   @override
   _TimerWidgetState createState() => _TimerWidgetState();
@@ -97,6 +99,14 @@ class _TimerWidgetState extends State<TimerWidget> {
     startTimer();
   }
 
+  deleteTimer() {
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
+    widget._deleteTimer(widget.key);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_dateTime == null) {
@@ -107,38 +117,40 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
     return Padding(
       padding: EdgeInsets.only(top: 20),
-      child: Column(
-        children: [
-          Text(
-            _name,
-            style: TextStyle(fontSize: 20),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _time,
-                style: TextStyle(fontSize: 30),
-              ),
-              IconButton(
-                icon: Icon(_playPauseIcon),
-                onPressed: playPause,
-              ),
-              IconButton(
-                icon: Icon(Icons.stop),
-                onPressed: stopTimer,
-              ),
-              IconButton(
-                icon: Icon(Icons.replay),
-                onPressed: resetTimer,
-              ),
-              IconButton(
-                icon: Icon(Icons.delete_forever),
-                onPressed: resetTimer,
-              )
-            ],
-          )
-        ],
+      child: Card(
+        child: Column(
+          children: [
+            Text(
+              _name,
+              style: TextStyle(fontSize: 20),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _time,
+                  style: TextStyle(fontSize: 30),
+                ),
+                IconButton(
+                  icon: Icon(_playPauseIcon),
+                  onPressed: playPause,
+                ),
+                IconButton(
+                  icon: Icon(Icons.stop),
+                  onPressed: stopTimer,
+                ),
+                IconButton(
+                  icon: Icon(Icons.replay),
+                  onPressed: resetTimer,
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete_forever),
+                  onPressed: deleteTimer,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
