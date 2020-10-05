@@ -31,7 +31,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<TimerWidget> _list;
-  var _timerId = 0;
 
   _HomePageState() {
     _list = [];
@@ -81,13 +80,7 @@ class _HomePageState extends State<HomePage> {
 
   deleteTimer(Key key) {
     setState(() {
-      this._list.removeWhere((timerWidget) {
-        if (timerWidget.key == key) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+      this._list.removeWhere((timerWidget) => timerWidget.key == key);
     });
   }
 
