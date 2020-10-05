@@ -7,10 +7,9 @@ class TimerWidget extends StatefulWidget {
   final DateTime _dateTimeRoot;
   final String _timerName;
   final Function _deleteTimer;
-  final int timerId;
 
-  TimerWidget(
-      this.timerId, this._dateTimeRoot, this._timerName, this._deleteTimer);
+  TimerWidget(Key key, this._dateTimeRoot, this._timerName, this._deleteTimer)
+      : super(key: key);
 
   @override
   _TimerWidgetState createState() => _TimerWidgetState();
@@ -100,10 +99,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     startTimer();
   }
 
+  deleteTimer() {
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
+    widget._deleteTimer(widget.key);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_dateTime == null) {
-      print(widget.timerId);
       _dateTime = widget._dateTimeRoot;
       _backUpDateTime = _dateTime;
       _name = widget._timerName;
@@ -139,17 +145,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                 ),
                 IconButton(
                   icon: Icon(Icons.delete_forever),
-                  onPressed: () {
-                    print("delete: ${widget.timerId}");
-                    widget._deleteTimer(widget.timerId);
-                  },
+                  onPressed: deleteTimer,
                 ),
-                IconButton(
-                  icon: Icon(Icons.info),
-                  onPressed: () {
-                    print(widget.timerId);
-                  },
-                )
               ],
             )
           ],

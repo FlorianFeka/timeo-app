@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       setState(() {
                         _list.add(TimerWidget(
-                            _timerId++, time, timerName, deleteTimer));
+                            UniqueKey(), time, timerName, deleteTimer));
                       });
                       Navigator.of(context).pop();
                     },
@@ -79,15 +79,10 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  deleteTimer(int timerId) {
+  deleteTimer(Key key) {
     setState(() {
-      print("Delete id: $timerId");
-      this._list.removeWhere((element) {
-        print("Element id: ${element.timerId}");
-        print(
-            "Element id  ${element.timerId} == $timerId : ${element.timerId == timerId}");
-        if (element.timerId == timerId) {
-          element = null;
+      this._list.removeWhere((timerWidget) {
+        if (timerWidget.key == key) {
           return true;
         } else {
           return false;
