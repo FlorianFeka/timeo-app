@@ -20,4 +20,5 @@ jobs:
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk
-      - run: flutter build ios --release --no-codesign
+      # Building for iOS is only supported on macOS.
+      # - run: flutter build ios --release --no-codesign
